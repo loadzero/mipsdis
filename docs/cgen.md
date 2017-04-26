@@ -10,78 +10,84 @@ decoder functions.
 
 An example of a generated dispatch function:
 
-    void decode_OPCODE(MipsEmu* emu, uint32_t op)
+```c
+void decode_OPCODE(MipsEmu* emu, uint32_t op)
+{
+    switch (getopcode(op))
     {
-       switch (getopcode(op))
-       {
-           case 0:
-               decode_SPC1(emu, op);
-               break;
-           case 1:
-               decode_R(emu, op);
-               break;
-           case 2:
-               decode_j(emu, op);
-               break;
-           case 3:
-               decode_jal(emu, op);
-               break;
+        case 0:
+            decode_SPC1(emu, op);
+            break;
+        case 1:
+            decode_R(emu, op);
+            break;
+        case 2:
+            decode_j(emu, op);
+            break;
+        case 3:
+            decode_jal(emu, op);
+            break;
 
-     ...
-       }
+    // ...
     }
+}
+```
 
 An example of a generated decoder:
 
-    static void decode_jal(MipsEmu* emu, uint32_t op)
+```c
+static void decode_jal(MipsEmu* emu, uint32_t op)
+{
+    if (!(check_opcode(op, 0xfc000000, 0x0c000000)))
     {
-        if (!(check_opcode(op, 0xfc000000, 0x0c000000)))
-        {
-            decode_illegal(outbuf, n, pc, op);
-            return;
-        }
-
-        snprintf(output,n,"jal 0x%x",gettarget(pc,op));
+        decode_illegal(outbuf, n, pc, op);
+        return;
     }
 
+    snprintf(output,n,"jal 0x%x",gettarget(pc,op));
+}
+```
+
 The generated code expects the host code to implement the following utility
-routines :
+routines:
 
-    // error checking routines:
+```c
+// error checking routines:
 
-    static int check_opcode(uint32_t op, uint32_t mask, uint32_t value);
-    static int check_cl(uint32_t rt, uint32_t rd);
-    static int check_jalr(uint32_t rs, uint32_t rd);
+static int check_opcode(uint32_t op, uint32_t mask, uint32_t value);
+static int check_cl(uint32_t rt, uint32_t rd);
+static int check_jalr(uint32_t rs, uint32_t rd);
 
-    // exception handling routines:
+// exception handling routines:
 
-    static void decode_illegal(char* outbuf, size_t n, uint32_t addr, 
-      uint32_t opcode);
+static void decode_illegal(char* outbuf, size_t n, uint32_t addr, 
+  uint32_t opcode);
 
-    static void decode_reserved(char* outbuf, size_t n, uint32_t addr, 
-      uint32_t opcode);
+static void decode_reserved(char* outbuf, size_t n, uint32_t addr, 
+  uint32_t opcode);
 
-    // packed field extraction routines:
+// packed field extraction routines:
 
-    static uint32_t getopcode(uint32_t op);
-    static uint32_t getfunction(uint32_t op);
-    static uint32_t getrt(uint32_t op);
-    static uint32_t getrs(uint32_t op);
-    static uint32_t getrd(uint32_t op);
-    static uint32_t gettarget(uint32_t pc, uint32_t op);
-    static uint32_t getbroff(uint32_t pc, uint32_t op);
-    static int32_t getsimm(uint32_t op);
-    static uint32_t getimm(uint32_t op);
-    static int32_t getoffset(uint32_t op);
-    static uint32_t getbase(uint32_t op);
-    static uint32_t getcacheop(uint32_t op);
-    static uint32_t getprefhint(uint32_t op);
-    static uint32_t getsa(uint32_t op);
-    static uint32_t getsyscode(uint32_t op);
-    static uint32_t getstype(uint32_t op);
-    static uint32_t gettrapcode(uint32_t op);
-    static uint32_t getsel(uint32_t op);
-    static uint32_t getwaitcode(uint32_t op);
+static uint32_t getopcode(uint32_t op);
+static uint32_t getfunction(uint32_t op);
+static uint32_t getrt(uint32_t op);
+static uint32_t getrs(uint32_t op);
+static uint32_t getrd(uint32_t op);
+static uint32_t gettarget(uint32_t pc, uint32_t op);
+static uint32_t getbroff(uint32_t pc, uint32_t op);
+static int32_t getsimm(uint32_t op);
+static uint32_t getimm(uint32_t op);
+static int32_t getoffset(uint32_t op);
+static uint32_t getbase(uint32_t op);
+static uint32_t getcacheop(uint32_t op);
+static uint32_t getprefhint(uint32_t op);
+static uint32_t getsa(uint32_t op);
+static uint32_t getsyscode(uint32_t op);
+static uint32_t getstype(uint32_t op);
+static uint32_t gettrapcode(uint32_t op);
+static uint32_t getsel(uint32_t op);
+static uint32_t getwaitcode(uint32_t op);
+```
 
 A full copy of the generated C code is included below, so that people
 browsing the project, or having trouble with the autogen can see what it looks like.
