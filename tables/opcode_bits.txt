@@ -1,0 +1,145 @@
+# vim: set ft=conf:
+
+# This file contains the bitwise layout of the set of MIPS bytecodes supported
+# by the mipsgen disassembler.
+#
+# These tables are utilised by mipsgen to check that instructions are valid.
+#
+# The mnemonics and layout come from "MIPS32 Architecture For Programmers
+# Volume II: The MIPS32 Instruction Set".
+#
+# See MIPS_Vol2.pdf p34
+# See scripts/mipsgen.rb 
+# See disasm/c/mipsdis.c
+
+# bit field codes
+
+# s = rs
+# t = rt
+# d = rd
+# i = immediate
+# o = offset
+# c = syscode
+# e = trapcode
+# b = base
+# p = cacheop
+# x = target
+# h = jumphint
+# n = sel
+# f = prefhint
+# a = sa
+# y = stype
+# z = waitcode
+#
+# r = reserved (not a field, indicates zero)
+
+# bit 31 is the most significant bit and is leftmost.
+# bit 0 is the least significant bit and is rightmost.
+
+j        000010xxxxxxxxxxxxxxxxxxxxxxxxxx
+jal      000011xxxxxxxxxxxxxxxxxxxxxxxxxx
+beq      000100ssssstttttoooooooooooooooo
+bne      000101ssssstttttoooooooooooooooo
+blez     000110sssssrrrrroooooooooooooooo
+bgtz     000111sssssrrrrroooooooooooooooo
+addi     001000ssssstttttiiiiiiiiiiiiiiii
+addiu    001001ssssstttttiiiiiiiiiiiiiiii
+slti     001010ssssstttttiiiiiiiiiiiiiiii
+sltiu    001011ssssstttttiiiiiiiiiiiiiiii
+andi     001100ssssstttttiiiiiiiiiiiiiiii
+ori      001101ssssstttttiiiiiiiiiiiiiiii
+xori     001110ssssstttttiiiiiiiiiiiiiiii
+lui      001111rrrrrtttttiiiiiiiiiiiiiiii
+beql     010100ssssstttttoooooooooooooooo
+bnel     010101ssssstttttoooooooooooooooo
+blezl    010110sssssrrrrroooooooooooooooo
+bgtzl    010111sssssrrrrroooooooooooooooo
+lb       100000bbbbbtttttoooooooooooooooo
+lh       100001bbbbbtttttoooooooooooooooo
+lwl      100010bbbbbtttttoooooooooooooooo
+lw       100011bbbbbtttttoooooooooooooooo
+lbu      100100bbbbbtttttoooooooooooooooo
+lhu      100101bbbbbtttttoooooooooooooooo
+lwr      100110bbbbbtttttoooooooooooooooo
+sb       101000bbbbbtttttoooooooooooooooo
+sh       101001bbbbbtttttoooooooooooooooo
+swl      101010bbbbbtttttoooooooooooooooo
+sw       101011bbbbbtttttoooooooooooooooo
+swr      101110bbbbbtttttoooooooooooooooo
+cache    101111bbbbbpppppoooooooooooooooo
+ll       110000bbbbbtttttoooooooooooooooo
+pref     110011bbbbbfffffoooooooooooooooo
+sc       111000bbbbbtttttoooooooooooooooo
+
+sll      000000rrrrrtttttdddddaaaaa000000
+srl      000000rrrrrtttttdddddaaaaa000010
+sra      000000rrrrrtttttdddddaaaaa000011
+sllv     000000ssssstttttdddddrrrrr000100
+srlv     000000ssssstttttdddddrrrrr000110
+srav     000000ssssstttttdddddrrrrr000111
+jr       000000sssssrrrrrrrrrrhhhhh001000
+jalr     000000sssssrrrrrdddddhhhhh001001
+movz     000000ssssstttttdddddrrrrr001010
+movn     000000ssssstttttdddddrrrrr001011
+syscall  000000cccccccccccccccccccc001100
+break    000000cccccccccccccccccccc001101
+sync     000000rrrrrrrrrrrrrrryyyyy001111
+mfhi     000000rrrrrrrrrrdddddrrrrr010000
+mthi     000000sssssrrrrrrrrrrrrrrr010001
+mflo     000000rrrrrrrrrrdddddrrrrr010010
+mtlo     000000sssssrrrrrrrrrrrrrrr010011
+mult     000000ssssstttttrrrrrrrrrr011000
+multu    000000ssssstttttrrrrrrrrrr011001
+div      000000ssssstttttrrrrrrrrrr011010
+divu     000000ssssstttttrrrrrrrrrr011011
+add      000000ssssstttttdddddrrrrr100000
+addu     000000ssssstttttdddddrrrrr100001
+sub      000000ssssstttttdddddrrrrr100010
+subu     000000ssssstttttdddddrrrrr100011
+and      000000ssssstttttdddddrrrrr100100
+or       000000ssssstttttdddddrrrrr100101
+xor      000000ssssstttttdddddrrrrr100110
+nor      000000ssssstttttdddddrrrrr100111
+slt      000000ssssstttttdddddrrrrr101010
+sltu     000000ssssstttttdddddrrrrr101011
+tge      000000sssssttttteeeeeeeeee110000
+tgeu     000000sssssttttteeeeeeeeee110001
+tlt      000000sssssttttteeeeeeeeee110010
+tltu     000000sssssttttteeeeeeeeee110011
+teq      000000sssssttttteeeeeeeeee110100
+tne      000000sssssttttteeeeeeeeee110110
+
+madd     011100ssssstttttrrrrrrrrrr000000
+maddu    011100ssssstttttrrrrrrrrrr000001
+mul      011100ssssstttttdddddrrrrr000010
+msub     011100ssssstttttrrrrrrrrrr000100
+msubu    011100ssssstttttrrrrrrrrrr000101
+clz      011100ssssstttttdddddrrrrr100000
+clo      011100ssssstttttdddddrrrrr100001
+sdbbp    011100cccccccccccccccccccc111111
+
+bltz     000001sssss00000oooooooooooooooo
+bgez     000001sssss00001oooooooooooooooo
+bltzl    000001sssss00010oooooooooooooooo
+bgezl    000001sssss00011oooooooooooooooo
+tgei     000001sssss01000iiiiiiiiiiiiiiii
+tgeiu    000001sssss01001iiiiiiiiiiiiiiii
+tlti     000001sssss01010iiiiiiiiiiiiiiii
+tltiu    000001sssss01011iiiiiiiiiiiiiiii
+teqi     000001sssss01100iiiiiiiiiiiiiiii
+tnei     000001sssss01110iiiiiiiiiiiiiiii
+bltzal   000001sssss10000oooooooooooooooo
+bgezal   000001sssss10001oooooooooooooooo
+bltzall  000001sssss10010oooooooooooooooo
+bgezall  000001sssss10011oooooooooooooooo
+
+mfc0     01000000000tttttdddddrrrrrrrrnnn
+mtc0     01000000100tttttdddddrrrrrrrrnnn
+
+tlbr     0100001rrrrrrrrrrrrrrrrrrr000001
+tlbwi    0100001rrrrrrrrrrrrrrrrrrr000010
+tlbwr    0100001rrrrrrrrrrrrrrrrrrr000110
+tlbp     0100001rrrrrrrrrrrrrrrrrrr001000
+eret     0100001rrrrrrrrrrrrrrrrrrr011000
+deret    0100001rrrrrrrrrrrrrrrrrrr011111
+wait     0100001zzzzzzzzzzzzzzzzzzz100000

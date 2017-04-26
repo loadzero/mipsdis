@@ -13,14 +13,14 @@ thought writing a disassembler would be a good first step.
 
 I picked MIPS because it is very simple and regular, and is small enough to fit
 in your head. I reckon that writing an x86 disassembler would have taken me ten
-times longer. I am unsure about ARM, but I get the feeling that it is more
+times as long. I am unsure about ARM, but I get the feeling that it is more
 complex than MIPS.
 
 I decided to use metaprogramming for a few reasons.
 
 Firstly, I find writing a bunch of slightly different dispatch and decoding
 routines by hand is tedious and error-prone. I find manipulating metadata using
-a simple, commented text format to be much more pleasant.
+a simple and commented text format to be much more pleasant.
 
 Secondly, I wanted both a C version of the disassembler that I could use on the
 command line as a filter, and also a javascript version that would be easy to

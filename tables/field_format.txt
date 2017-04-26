@@ -1,0 +1,44 @@
+# vim: set ft=conf:
+
+# This file details the specific format and extra decoding metadata required to
+# output an opcode field as human readable text.
+#
+# This data is used by mipsgen to build both the format string for a printf
+# statement, as well as gather the arguments for it.
+#
+# The formats come from "MIPS32 Architecture For Programmers
+# Volume II: The MIPS32 Instruction Set".
+#
+# See MIPS_Vol2.pdf p34
+# See tables/asm_format.txt
+# See scripts/mipsgen.rb 
+# See disasm/c/mipsdis.c
+
+# The first column contains the field name, used by the code generator to
+# extract data from an opcode.
+# The second column contains the printf format.
+# The third column denotes whether the PC is required when extracting data from an opcode, this is used for jump and branch type instructions.
+
+target    0x%x  true
+rs        $%d   false
+rt        $%d   false
+broff     0x%x  true
+simm      %d    false
+imm       0x%x  false
+offset    %d    false
+base      $%d   false
+cacheop   0x%x  false
+prefhint  0x%x  false
+rd        $%d   false
+sa        0x%x  false
+
+# unused in rel1
+# jumphint  0x%x  false
+
+bc1       0x%x  false
+bc2       0x%x  false
+syscode   0x%x  false
+stype     0x%x  false
+trapcode  0x%x  false
+sel       %d    false
+waitcode  0x%x  false

@@ -1,0 +1,123 @@
+# vim: set ft=conf:
+
+# This file details the human readable formats of MIPS bytecodes.
+#
+# These format records are used by mipsgen to generate formatted 
+# printing statements to translate opcodes into human readable disassembly
+# for output.
+#
+# The formats come from "MIPS32 Architecture For Programmers
+# Volume II: The MIPS32 Instruction Set".
+#
+# See MIPS_Vol2.pdf p34
+# See scripts/mipsgen.rb 
+# See disasm/c/mipsdis.c
+# See tables/field_format.txt
+
+# The first column contains the mnemonic.
+# The second column contains opcode arguments, delimited by a comma.
+#
+# The opcode arguments must match entries in tables/field_format.txt
+
+j        target
+jal      target
+beq      rs,rt,broff
+bne      rs,rt,broff
+blez     rs,broff
+bgtz     rs,broff
+addi     rt,rs,simm
+addiu    rt,rs,simm
+slti     rt,rs,simm
+sltiu    rt,rs,simm
+andi     rt,rs,imm
+ori      rt,rs,imm
+xori     rt,rs,imm
+lui      rt,imm
+beql     rs,rt,broff
+bnel     rs,rt,broff
+blezl    rs,broff
+bgtzl    rs,broff
+lb       rt,offset(base)
+lh       rt,offset(base)
+lwl      rt,offset(base)
+lw       rt,offset(base)
+lbu      rt,offset(base)
+lhu      rt,offset(base)
+lwr      rt,offset(base)
+sb       rt,offset(base)
+sh       rt,offset(base)
+swl      rt,offset(base)
+sw       rt,offset(base)
+swr      rt,offset(base)
+cache    cacheop,offset(base)
+ll       rt,offset(base)
+pref     prefhint,offset(base)
+sc       rt,offset(base)
+sll      rd,rt,sa
+srl      rd,rt,sa
+sra      rd,rt,sa
+sllv     rd,rt,rs
+srlv     rd,rt,rs
+srav     rd,rt,rs
+jr       rs
+jalr     rd,rs
+movz     rd,rs,rt
+movn     rd,rs,rt
+syscall  syscode
+break    bc1,bc2
+sync     stype
+mfhi     rd
+mthi     rs
+mflo     rd
+mtlo     rs
+mult     rs,rt
+multu    rs,rt
+div      rs,rt
+divu     rs,rt
+add      rd,rs,rt
+addu     rd,rs,rt
+sub      rd,rs,rt
+subu     rd,rs,rt
+and      rd,rs,rt
+or       rd,rs,rt
+xor      rd,rs,rt
+nor      rd,rs,rt
+slt      rd,rs,rt
+sltu     rd,rs,rt
+tge      rs,rt,trapcode
+tgeu     rs,rt,trapcode
+tlt      rs,rt,trapcode
+tltu     rs,rt,trapcode
+teq      rs,rt,trapcode
+tne      rs,rt,trapcode
+madd     rs,rt
+maddu    rs,rt
+mul      rd,rs,rt
+msub     rs,rt
+msubu    rs,rt
+clz      rd,rs
+clo      rd,rs
+sdbbp    syscode
+bltz     rs,broff
+bgez     rs,broff
+bltzl    rs,broff
+bgezl    rs,broff
+tgei     rs,simm
+tgeiu    rs,simm
+tlti     rs,simm
+tltiu    rs,simm
+teqi     rs,simm
+tnei     rs,simm
+bltzal   rs,broff
+bgezal   rs,broff
+bltzall  rs,broff
+bgezall  rs,broff
+mfc0     rt,rd,sel
+mtc0     rt,rd,sel
+tlbr
+tlbwi
+tlbwr
+tlbp
+eret
+deret
+wait     waitcode

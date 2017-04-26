@@ -1,0 +1,111 @@
+# vim: set ft=conf:
+
+# This file contains the MIPS bytecode decoding tables. It is largely derived
+# from the CPU Opcode Map in the "MIPS32 4K Processor Core Family Software
+# User's Manual".
+#
+# These tables are utilised by mipsgen to create the switch statements that
+# make up the core dispatch routines of a disassembler.
+#
+# See MD00016-2B-4K-SUM-01.18.pdf p169
+# See scripts/mipsgen.rb
+# See disasm/c/mipsdis.c
+
+# The format of each table is described below:
+#
+#     table header:
+#
+#         [TABLENAME field_to_switch_on]
+#
+#     table key:
+#
+#         [a-z]+  opcode mnemonic
+#         R       regimm instruction
+#         SPC1    denotes special instruction
+#         SPC2    denotes special2 instruction
+#         COP0    coprocessor instruction
+#         CO      coprocessor further instruction
+#         .       reserved (causes reserved instruction fault)
+#         ?       unusable (causes unusable exception)
+#
+# note: Lower case entries denote actual instructions, uppercase entries
+#       denote that a further table lookup is required.
+
+# The 'OPCODE' table encodes the upper 6 bits of each 32-bit instruction. All
+# instructions here are I-type except for j/jal (which are J-type)
+
+[OPCODE opcode]
+
+SPC1  R      j     jal    beq   bne   blez   bgtz
+addi  addiu  slti  sltiu  andi  ori   xori   lui
+COP0  ?      ?     ?      beql  bnel  blezl  bgtzl
+.     .      .     .      SPC2  .     .      .
+lb    lh     lwl   lw     lbu   lhu   lwr    .
+sb    sh     swl   sw     .     .     swr    cache
+ll    ?      ?     pref   .     ?     ?      .
+sc    ?      ?     .      .     ?     ?      .
+
+# The 'SPC1' table encodes the lower 6 bits (function field) of instructions
+# that require it (i.e. when opcode field == SPC1). All instructions here are
+# R-type.
+
+[SPC1 function]
+
+sll   ?      srl   sra   sllv     .      srlv  srav
+jr    jalr   movz  movn  syscall  break  .     sync
+mfhi  mthi   mflo  mtlo  .        .      .     .
+mult  multu  div   divu  .        .      .     .
+add   addu   sub   subu  and      or     xor   nor
+.     .      slt   sltu  .        .      .     .
+tge   tgeu   tlt   tltu  teq      .      tne   .
+.     .      .     .     .        .      .     .
+
+# The 'SPC2' table encodes the lower 6 bits (function field) of instructions
+# that require it (i.e. when opcode field equals SPC2). All instructions here
+# are R-type.
+
+[SPC2 function]
+
+madd  maddu  mul  .  msub  msubu  .  .
+.     .      .    .  .     .      .  .
+.     .      .    .  .     .      .  .
+.     .      .    .  .     .      .  .
+clz   clo    .    .  .     .      .  .
+.     .      .    .  .     .      .  .
+.     .      .    .  .     .      .  .
+.     .      .    .  .     .      .  sdbbp
+
+# The 'R' table encodes the rt bits (20..16) of instructions that require it
+# (i.e. when opcode field equals R). All instructions here are I-type.
+
+[R rt]
+
+bltz    bgez    bltzl    bgezl    .     .  .     .
+tgei    tgeiu   tlti     tltiu    teqi  .  tnei  .
+bltzal  bgezal  bltzall  bgezall  .     .  .     .
+.       .       .        .        .     .  .     .
+
+# The 'COP0' table encodes the rs bits (25..21) of instructions that require it
+# (i.e. when opcode field equals COP0). All instructions here are R-type.
+
+[COP0 rs]
+
+mfc0  .   .   .   mtc0  .   .   .
+.     .   .   .   .     .   .   .
+CO    CO  CO  CO  CO    CO  CO  CO
+CO    CO  CO  CO  CO    CO  CO  CO
+
+# The 'CO' table encodes the lower 6 bits (function field) of instructions that
+# require it (i.e. when opcode field equals COP0 and rs field equals CO). All
+# instructions here are C-type.
+
+[CO function]
+
+.     tlbr  tlbwi  .  .  .  tlbwr  .
+tlbp  .     .      .  .  .  .      .
+.     .     .      .  .  .  .      .
+eret  .     .      .  .  .  .      deret
+wait  .     .      .  .  .  .      .
+.     .     .      .  .  .  .      .
+.     .     .      .  .  .  .      .
+.     .     .      .  .  .  .      .
