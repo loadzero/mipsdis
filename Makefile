@@ -15,7 +15,7 @@ disasm/js/mips_dispatch.js: scripts/mipsgen.rb codegen/*.rb tables/*.txt
 	./scripts/mipsgen.rb js > $@
 
 bin/mipsdis: disasm/c/mips_dispatch.h disasm/c/mipsdis.c
-	gcc -fprofile-arcs -ftest-coverage -g -pedantic -std=gnu90 -I. disasm/c/mipsdis.c -o $@
+	gcc -pedantic -std=gnu90 -I. disasm/c/mipsdis.c -o $@
 
 # deploy the disasm scripts to bin, and ensure we depend on codegen
 
