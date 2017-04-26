@@ -23,20 +23,20 @@ routines by hand is tedious and error-prone. I find manipulating metadata using
 a simple, commented text format to be much more pleasant.
 
 Secondly, I wanted both a C version of the disassembler that I could use on the
-command line as a filter, and a javascript version that would be easy to share
-and demonstrate.
+command line as a filter, and also a javascript version that would be easy to
+share and demonstrate.
 
 Finally, I also wanted to use the metadata and code generation for some other
 low-level projects that I am working on.
 
 This article will demonstrate the different versions of the disassembler,
 discuss the code generator, describe how to extend mipsdis, tell you how to get
-the code and run it and then conclude by describing some of the extra
+the code and run it, and then conclude by describing some of the extra
 documentation available for the project.
 
 # Demo
 
-There are four parts to mipsdis that can be demonstrated.
+There are four parts of mipsdis that can be demonstrated.
 
 The first is a javascript version that runs in the browser which you can try
 out below. The data in the input textarea consists of the program counter in
@@ -74,7 +74,7 @@ example using the same program as above is shown below:
     80001038:	34c6002a	ori $6,$6,0x2a
     8000103c:	a0a60000	sb $6,0($5)
 
-The other two parts are ruby and javascript versions of mipsdis, which can be run as shown below.
+The other two parts are ruby and javascript versions of mipsdis, which function identically to the C version.
 
 ruby:
 
@@ -92,19 +92,19 @@ javascript:
 
 # Mipsgen
 
-I wrote a ruby script called [mipsgen](scripts/mipsgen.rb) to do the heavy
-lifting of generating the core routines for each version of the disassembler.
+I wrote [mipsgen](scripts/mipsgen.rb) to do the heavy lifting of generating the
+bulk of the code for each version of the disassembler.
 
 The metadata used by mipsgen was created by a process of reading the
 architecture manuals and then compiling the information on each mnemonic into a
 form that makes sense for both humans and machines.
 
-The manuals are listed below:
+The manuals I curated this data from are shown below:
 
 1. [MIPS32 4K User's manual](https://imagination-technologies-cloudfront-assets.s3.amazonaws.com/documentation/MD00016-2B-4K-SUM-01.18.pdf)
 2. [MIPS32 Architecture for Programmers Vol 2](http://www.cs.cornell.edu/courses/cs3410/2015sp/MIPS_Vol2.pdf)
 
-The metadata compilation is contained in these files:
+The resultant metadata is contained in these files:
 
 [tables/dispatch_tables](tables/dispatch_tables.txt) is used to drive decoder switch statements.  
 [tables/opcode_bits.txt](tables/opcode_bits.txt) specifies the bitwise layout of each opcode.  
