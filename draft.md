@@ -1,3 +1,5 @@
+[![Build status](http://blog.loadzero.com/draft/derp.svg)](http://blog.loadzero.com/draft/derp.svg)
+
 # Mipsdis
 
 `mipsdis` is a MIPS bytecode disassembler that I've been hacking on that uses
