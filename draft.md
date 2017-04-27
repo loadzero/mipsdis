@@ -165,6 +165,17 @@ This keeps the amount of language specific code for each disassembler down to
 around 300 lines. The amount of auto-generated code is around 1300 lines for
 each version.
 
+I opted to generate fairly simple and verbose code, consisting of large
+switch statements, as well as explicit decoding functions for each mnemonic. I
+did it this way to make the generated code easier to read and debug, and work
+with coverage tools better. It was also simpler to write and makes the code
+generation consistent across the different language versions.
+
+The alternative would be to generate more compact routines that take advantage
+of language specific features such as macros and polymorphism. For the purposes
+of this project, I would rather have those smarts in `mipsgen` than in the code
+it is generating.
+
 `mipsgen` is invoked by the build system of `mipsdis` as part of the process of
 building the different versions of the disassembler. 
 
