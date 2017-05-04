@@ -10,32 +10,36 @@ decoder functions.
 
 An example of a generated dispatch function:
 
-    def decode_OPCODE(pc, op)
-       case (getopcode(op))
-           when 0
-               return decode_SPC1(pc, op);
-           when 1
-               return decode_R(pc, op);
-           when 2
-               return decode_j(pc, op);
-           when 3
-               return decode_jal(pc, op);
-           when 4
-               return decode_beq(pc, op);
-       
-       ...
+```rb
+def decode_OPCODE(pc, op)
+   case (getopcode(op))
+       when 0
+           return decode_SPC1(pc, op);
+       when 1
+           return decode_R(pc, op);
+       when 2
+           return decode_j(pc, op);
+       when 3
+           return decode_jal(pc, op);
+       when 4
+           return decode_beq(pc, op);
+   
+   ...
 
-       end
-    end
+   end
+end
+```
 
 An example of a generated decoder:
 
-    def decode_jal(pc, op)
-       ok = check_opcode(op, 0xfc000000, 0x0c000000)
-       if (!ok); return 'illegal'; end
+```rb
+def decode_jal(pc, op)
+   ok = check_opcode(op, 0xfc000000, 0x0c000000)
+   if (!ok); return 'illegal'; end
 
-       return sprintf("jal 0x%x", gettarget(pc,op));
-    end
+   return sprintf("jal 0x%x", gettarget(pc,op));
+end
+```
 
 The generated code expects the host code to implement the following utility
 routines :

@@ -10,38 +10,42 @@ decoder functions.
 
 An example of a generated dispatch function:
 
-    function decode_OPCODE(pc, op)
+```js
+function decode_OPCODE(pc, op)
+{
+    switch (getopcode(op))
     {
-        switch (getopcode(op))
-        {
-            case 0:
-                return decode_SPC1(pc, op);
-                break;
-            case 1:
-                return decode_R(pc, op);
-                break;
-            case 2:
-                return decode_j(pc, op);
-                break;
-            case 3:
-                return decode_jal(pc, op);
-                break;
-            case 4:
-                return decode_beq(pc, op);
-                break;
-        ...
-        }
+        case 0:
+            return decode_SPC1(pc, op);
+            break;
+        case 1:
+            return decode_R(pc, op);
+            break;
+        case 2:
+            return decode_j(pc, op);
+            break;
+        case 3:
+            return decode_jal(pc, op);
+            break;
+        case 4:
+            return decode_beq(pc, op);
+            break;
+    ...
     }
+}
+```
 
 An example of a generated decoder:
 
-    function decode_jal(pc, op)
-    {
-        ok = check_opcode(op, 0xfc000000, 0x0c000000);
-        if (!ok) return 'illegal';
+```js
+function decode_jal(pc, op)
+{
+    ok = check_opcode(op, 0xfc000000, 0x0c000000);
+    if (!ok) return 'illegal';
 
-        return sprintf("jal 0x%x", gettarget(pc,op));
-    }
+    return sprintf("jal 0x%x", gettarget(pc,op));
+}
+```
 
 The generated code expects the host code to implement the following utility
 routines :
