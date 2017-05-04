@@ -14,3 +14,4 @@ See:
 
 * [Blog article](http://blog.loadzero.com/blog/announcing-mipsdis.html)  
 * [Live Demo](http://blog.loadzero.com/demo/mipsdis/demo.html)
+* [outline.md](outline.md)
