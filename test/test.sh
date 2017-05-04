@@ -19,6 +19,17 @@ sc()
     cat "$1" | grep -v '^#' | awk 'NF'
 }
 
+find_nodejs()
+{
+    for i in node nodejs; do
+        if which $i >/dev/null 2>&1; then
+            echo $i
+        fi
+    done
+
+    echo ""
+}
+
 # test the disassemblers by comparing their output to an expected result
 
 echo "C test"
@@ -27,9 +38,11 @@ diff <(sc $1) <(./bin/mipsdis $2) |head
 echo "ruby test"
 diff <(sc $1) <(./bin/mipsdis.rb $2) |head
 
+nodejs=$(find_nodejs)
+
 # nodejs is an optional dependency
 
-if type /usr/bin/nodejs >/dev/null 2>&1; then
+if [[ $nodejs != "" ]]; then
     echo "javascript test"
-    diff <(sc $1) <(nodejs ./bin/mipsdis.js $2) |head
+    diff <(sc $1) <($nodejs ./bin/mipsdis.js $2) |head
 fi

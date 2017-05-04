@@ -19,16 +19,22 @@ function check_for()
 function optional()
 {
     printf "optional checking for $1 ... "
+    shift
 
-    if ! which "$1"; then
-        printf "not found\n"
-    fi
+    for i in "$@"; do
+        if which $i; then
+            return 0
+        fi
+    done
+
+    printf "not found\n"
 }
 
 # this isn't a real autoconf script. it's much simpler.
 
 check_for make
 check_for ruby
-optional nodejs
+
+optional nodejs node nodejs
 
 echo ok
