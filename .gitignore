@@ -1,0 +1,8 @@
+bin/*
+disasm/rb/mips_dispatch.rb
+disasm/js/mips_dispatch.js
+disasm/c/mips_dispatch.h
+.*.swp
+.gdb_history
+tags
+tmp/
