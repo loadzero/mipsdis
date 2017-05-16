@@ -16,7 +16,7 @@ See:
 
 The Javascript version of `mipsdis` runs in the browser.
 
-You can try it our here:
+You can try it out here:
 
 * [Browser Demo](http://blog.loadzero.com/demo/mipsdis/demo.html)
 
