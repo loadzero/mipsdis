@@ -189,7 +189,7 @@ follows:
 - Adjust the method names accordingly
 - Modify the print statements in `py_emit_decoder` and `py_gen_switch` to emit
   the appropriate python code.
-- Port [disasm/rb/mipsdis.rb](disasm/rb/mipsdisb.rb) to `disasm/py/mipsdis.py`.
+- Port [disasm/rb/mipsdis.rb](disasm/rb/mipsdis.rb) to `disasm/py/mipsdis.py`.
 
 The process for adding new opcodes is shown below:
 
