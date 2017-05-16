@@ -207,7 +207,8 @@ The process for adding new opcodes is shown below:
 
 ## Documentation
 
-Apart from this post, there are a few other bits and pieces of documentation that are worth looking at.
+Apart from this file, there are a few other bits and pieces of documentation
+that are worth looking at.
 
 There is an outline of the code [here](outline.md) that contains a summary of
 each module. The modules are listed in topological order.
@@ -217,7 +218,7 @@ a verbose description of what it is and why it is present. If necessary, the
 blurb contains cross references to other related files.
 
 There is some more documentation on the code generation, as well as a static
-copy of the auto-generated code, inside the `docs/` directory.
+copy of the auto-generated code, inside the [docs/](docs/) directory.
 
 See [docs/cgen.md](docs/cgen.md) for the C version.  
 See [docs/jsgen.md](docs/jsgen.md) for the Javascript version.  
