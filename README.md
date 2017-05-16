@@ -185,7 +185,7 @@ It can be invoked directly like this:
 The process for adding another language like python to the code generator is as
 follows:
 
-- Copy [mipsdis/rbgen.rb](mipsdis/rbgen.rb) to `mipsdis/pygen.rb`
+- Copy [mipsdis/rbgen.rb](scripts/rbgen.rb) to `mipsdis/pygen.rb`
 - Adjust the method names accordingly
 - Modify the print statements in `py_emit_decoder` and `py_gen_switch` to emit
   the appropriate python code.
